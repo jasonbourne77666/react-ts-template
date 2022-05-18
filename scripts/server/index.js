@@ -9,15 +9,15 @@ const choosePort = require('./choseport');
 const compiler = Webpack(webpackDevConfig);
 
 const devServerOptions = {
-  ...webpackDevConfig.devServer
+  ...webpackDevConfig.devServer,
 };
-const server = new WebpackDevServer(devServerOptions, compiler);
+const server = new WebpackDevServer(compiler, devServerOptions);
 
 async function startServer() {
   const resPort = await choosePort(SERVER_PORT, SERVER_HOST);
   try {
     if (resPort !== null) {
-      server.start(resPort, SERVER_HOST, (err) => {
+      server.listen(resPort, SERVER_HOST, (err) => {
         if (err) {
           return logger.error(err.message);
         }

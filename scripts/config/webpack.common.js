@@ -9,12 +9,17 @@ const paths = require('../paths');
 const { isDevelopment, isProduction } = require('../env');
 const { imageInlineSizeLimit } = require('../conf');
 
-const getCssLoaders = (importLoaders) => [
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+const getCssLoaders = (importLoaders, modules = false) => [
   isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
     options: {
-      modules: false,
+      modules,
       sourceMap: isDevelopment,
       importLoaders,
     },
@@ -41,10 +46,19 @@ const getCssLoaders = (importLoaders) => [
   },
 ];
 
+// 开发环境热更新
+const entry = isDevelopment
+  ? [
+      // Runtime code for hot module replacement
+      'webpack/hot/dev-server.js',
+      // Dev server client for web socket transport, hot and live reload logic
+      'webpack-dev-server/client/index.js?hot=true&live-reload=true',
+      paths.appIndex,
+    ]
+  : { app: paths.appIndex };
+
 module.exports = {
-  entry: {
-    app: paths.appIndex,
-  },
+  entry,
   cache: {
     type: 'filesystem',
     buildDependencies: {
@@ -71,13 +85,39 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: cssRegex,
+        exclude: cssModuleRegex,
         use: getCssLoaders(1),
       },
       {
-        test: /\.scss$/,
+        test: cssModuleRegex,
+        use: getCssLoaders(1, {
+          mode: 'local',
+          auto: true,
+          localIdentName: '[path]__[local]--[hash:base64:5]',
+        }),
+      },
+      {
+        test: sassRegex,
+        exclude: sassModuleRegex,
         use: [
           ...getCssLoaders(2),
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: isDevelopment,
+            },
+          },
+        ],
+      },
+      {
+        test: sassModuleRegex,
+        use: [
+          ...getCssLoaders(2, {
+            mode: 'local',
+            auto: true,
+            localIdentName: '[path]__[local]--[hash:base64:5]',
+          }),
           {
             loader: 'sass-loader',
             options: {

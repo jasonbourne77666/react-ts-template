@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 // Get the working directory of the file executed by node
+// 获取项目根目录
 const appDirectory = fs.realpathSync(process.cwd());
 
 /**
@@ -22,9 +23,7 @@ const moduleFileExtensions = ['ts', 'tsx', 'js', 'jsx'];
  */
 function resolveModule(resolveFn, filePath) {
   // Check if the file exists
-  const extension = moduleFileExtensions.find((ex) =>
-    fs.existsSync(resolveFn(`${filePath}.${ex}`))
-  );
+  const extension = moduleFileExtensions.find((ex) => fs.existsSync(resolveFn(`${filePath}.${ex}`)));
 
   if (extension) {
     return resolveFn(`${filePath}.${extension}`);
@@ -37,12 +36,9 @@ module.exports = {
   appPublic: resolveApp('public'),
   appIndex: resolveModule(resolveApp, 'src/index'), // Package entry path
   appHtml: resolveApp('public/index.html'),
-  appNodeModules: resolveApp('node_modules'), // node_modules path
   appSrc: resolveApp('src'),
-  appSrcComponents: resolveApp('src/components'),
-  appSrcUtils: resolveApp('src/utils'),
   appProxySetup: resolveModule(resolveApp, 'src/setProxy'),
   appPackageJson: resolveApp('package.json'),
   appTsConfig: resolveApp('tsconfig.json'),
-  moduleFileExtensions
+  moduleFileExtensions,
 };
