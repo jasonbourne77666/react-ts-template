@@ -1,5 +1,5 @@
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 
 // Get the working directory of the file executed by node
 // 获取项目根目录
@@ -31,7 +31,7 @@ function resolveModule(resolveFn, filePath) {
   return resolveFn(`${filePath}.ts`); // default is .ts
 }
 
-module.exports = {
+export default {
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
   appIndex: resolveModule(resolveApp, 'src/index'), // Package entry path

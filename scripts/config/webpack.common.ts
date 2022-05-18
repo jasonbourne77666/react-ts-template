@@ -1,20 +1,20 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // 进度条
-const WebpackBar = require('webpackbar');
+import WebpackBar from 'webpackbar';
 // 单独开启进程进行 ts 类型检查，优化打包速度
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const paths = require('../paths');
-const { isDevelopment, isProduction } = require('../env');
-const { imageInlineSizeLimit } = require('../conf');
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import paths from '../paths';
+import { isDevelopment, isProduction } from '../env';
+import { imageInlineSizeLimit } from '../conf';
 
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
-const getCssLoaders = (importLoaders, modules = false) => [
+const getCssLoaders = (importLoaders: number, modules = {}) => [
   isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',
@@ -57,14 +57,14 @@ const entry = isDevelopment
     ]
   : { app: paths.appIndex };
 
-module.exports = {
+export default {
   entry,
-  cache: {
-    type: 'filesystem',
-    buildDependencies: {
-      config: [__filename],
-    },
-  },
+  // cache: {
+  //   type: 'filesystem',
+  //   buildDependencies: {
+  //     config: [__filename],
+  //   },
+  // },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {

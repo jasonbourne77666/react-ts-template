@@ -1,5 +1,5 @@
-const chalk = require('chalk');
-const ip = require('ip');
+import chalk from 'chalk';
+import ip from 'ip';
 
 const divider = chalk.gray('-----------------------------------');
 
@@ -20,4 +20,4 @@ ${chalk.magenta(`Press ${chalk.italic('Ctrl+c')} to stop`)}
   },
 };
 
-module.exports = logger;
+export default logger;

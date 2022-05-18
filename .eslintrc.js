@@ -52,6 +52,7 @@ module.exports = {
     'unicorn/no-null': OFF,
     'unicorn/no-array-reduce': OFF,
     'unicorn/prefer-module': OFF,
+    'unicorn/prefer-node-protocol': OFF,
     '@typescript-eslint/no-useless-constructor': ERROR,
     '@typescript-eslint/no-empty-function': WARN,
     '@typescript-eslint/no-var-requires': OFF,

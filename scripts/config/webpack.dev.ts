@@ -1,11 +1,11 @@
-const webpack = require('webpack');
+import webpack, { Configuration } from 'webpack';
 // 页面显示错误信息
-// const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-const paths = require('../paths');
+// import ErrorOverlayPlugin from 'error-overlay-webpack-plugin';
+import { merge } from 'webpack-merge';
+import common from './webpack.common';
+import paths from '../paths';
 
-module.exports = merge(common, {
+export default merge<Configuration>(common, {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   target: 'web',

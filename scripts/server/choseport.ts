@@ -1,6 +1,6 @@
-const detect = require('detect-port-alt');
-const isRoot = require('is-root');
-const chalk = require('chalk');
+import detect from 'detect-port-alt';
+import isRoot from 'is-root';
+import chalk from 'chalk';
 
 const isInteractive = process.stdout.isTTY;
 
@@ -22,4 +22,4 @@ async function choosePort(port, host) {
   return null;
 }
 
-module.exports = choosePort;
+export default choosePort;
